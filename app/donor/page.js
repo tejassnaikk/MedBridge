@@ -340,6 +340,49 @@ export default function DonorPage() {
           <div className="text-center text-[#64748b] text-sm py-6">No clinics found for that zip.</div>
         )}
 
+        {/* Thank-you popup modal */}
+        {donated && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4" style={{ background: 'rgba(10,14,26,0.85)', backdropFilter: 'blur(6px)' }}>
+            <div className="bg-[#111827] border border-[#10b981]/40 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
+              <div className="text-5xl mb-4">🌿</div>
+              <div className="font-mono text-[10px] tracking-[3px] text-[#10b981] uppercase mb-3">Thank You</div>
+              <h2 className="text-2xl font-bold text-white mb-3 leading-snug">
+                You just changed<br />someone's life.
+              </h2>
+              <p className="text-[#94a3b8] text-sm leading-relaxed mb-5">
+                Your donation of <strong className="text-white">{drugForm.drug_name} {drugForm.strength}</strong> is now
+                in the hands of a clinic. A pharmacist will inspect and approve it — then a patient
+                who genuinely can't afford it will receive it for free.
+              </p>
+
+              <div className="grid grid-cols-3 gap-2 mb-5">
+                {[
+                  { label: 'Medication logged', value: '✓' },
+                  { label: 'Clinic notified', value: '✓' },
+                  { label: 'Patient matched', value: 'Soon' },
+                ].map(({ label, value }) => (
+                  <div key={label} className="bg-[#0d1424] border border-[#1e2d45] rounded-lg px-2 py-3">
+                    <div className="text-[#10b981] font-bold text-base mb-1">{value}</div>
+                    <div className="text-[#64748b] text-[10px] leading-tight">{label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-[#64748b] text-xs leading-relaxed mb-6 italic">
+                "Millions of Americans skip doses because they can't afford their prescriptions.
+                What felt like an unused bottle to you is a month's treatment for someone else."
+              </p>
+
+              <button
+                onClick={reset}
+                className="w-full bg-[#10b981] text-[#0a0e1a] font-bold py-3 rounded-xl text-sm hover:bg-[#059669] transition-all"
+              >
+                Done — Donate Another Medication
+              </button>
+            </div>
+          </div>
+        )}
+
         {clinics && clinics.length > 0 && (
           <div className="flex flex-col gap-4">
             {clinics.slice(0, 3).map((c, i) => {
@@ -360,37 +403,25 @@ export default function DonorPage() {
                   <div className="text-xs text-[#64748b] mb-3">Today: {todayHours} · {c.contact_phone}</div>
 
                   {i === 0 && (
-                    donated ? (
-                      <div className="bg-[#f59e0b]/10 border border-[#f59e0b]/20 rounded-lg px-4 py-3 text-sm text-[#f59e0b] text-center font-semibold">
-                        ✓ Drop-off logged — clinic staff will inspect &amp; approve shortly
-                      </div>
-                    ) : (
-                      <>
-                        {submitError && (
-                          <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2 text-xs text-red-400 mb-3">{submitError}</div>
-                        )}
-                        <button
-                          onClick={() => handleDonate(c.id)}
-                          disabled={submitting}
-                          className="w-full bg-[#10b981] text-[#0a0e1a] font-bold py-3 rounded-lg text-sm hover:bg-[#059669] disabled:opacity-50 transition-all"
-                        >
-                          {submitting ? 'Adding to Inventory...' : `Confirm Drop-Off at ${c.name} →`}
-                        </button>
-                        <p className="text-[#64748b] text-xs mt-2 text-center">
-                          Tap after you drop off the medication at this clinic.
-                        </p>
-                      </>
-                    )
+                    <>
+                      {submitError && (
+                        <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2 text-xs text-red-400 mb-3">{submitError}</div>
+                      )}
+                      <button
+                        onClick={() => handleDonate(c.id)}
+                        disabled={submitting}
+                        className="w-full bg-[#10b981] text-[#0a0e1a] font-bold py-3 rounded-lg text-sm hover:bg-[#059669] disabled:opacity-50 transition-all"
+                      >
+                        {submitting ? 'Adding to Inventory...' : `Confirm Drop-Off at ${c.name} →`}
+                      </button>
+                      <p className="text-[#64748b] text-xs mt-2 text-center">
+                        Tap after you drop off the medication at this clinic.
+                      </p>
+                    </>
                   )}
                 </div>
               );
             })}
-
-            {donated && (
-              <button onClick={reset} className="text-sm text-[#64748b] hover:text-[#e2e8f0] underline block text-center mt-2">
-                ← Donate another medication
-              </button>
-            )}
           </div>
         )}
 

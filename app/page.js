@@ -22,6 +22,7 @@ function fileToBase64(file) {
 export default function PatientPage() {
   const [form, setForm] = useState({ drug_name: '', strength: '', zip_code: '' });
   const [results, setResults] = useState(null);
+  const [swapSuggestions, setSwapSuggestions] = useState(null);
   const [loading, setLoading] = useState(false);
   const [waitlistForm, setWaitlistForm] = useState({ email: '', quantity_requested: 30 });
   const PATIENT_QTY_MIN = 7;
@@ -54,6 +55,7 @@ export default function PatientPage() {
     e.preventDefault();
     setLoading(true);
     setResults(null);
+    setSwapSuggestions(null);
     setWaitlistState('idle');
     setSuggestions([]);
     try {
@@ -63,6 +65,7 @@ export default function PatientPage() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
+      setSwapSuggestions(data.swap_suggestions || null);
       setResults(data);
     } catch {
       setResults({ error: 'Failed to search. Please try again.' });
@@ -410,6 +413,38 @@ export default function PatientPage() {
                 <span className="w-2 h-2 rounded-full bg-[#f59e0b]"></span>
                 Not in stock nearby — join the waitlist
               </div>
+
+              {/* Smart Swap Suggestions */}
+              {swapSuggestions && (
+                <div className="bg-[#111827] border border-[#f59e0b]/30 rounded-xl p-5 mb-6">
+                  <div className="font-mono text-[10px] tracking-[2px] text-[#f59e0b] uppercase mb-1">Smart Swap — Therapeutically Similar</div>
+                  <p className="text-[#64748b] text-xs mb-4 leading-relaxed">
+                    <strong className="text-white">{form.drug_name}</strong> isn't available nearby, but these drugs from the same class (<span className="text-[#f59e0b]">{swapSuggestions.drug_class}</span>) are in stock. Ask your doctor if a swap is right for you.
+                  </p>
+                  <div className="flex flex-col gap-3">
+                    {swapSuggestions.items.slice(0, 3).map(item => {
+                      const today = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date().getDay()];
+                      const todayHours = item.hours?.[today] || 'Call to confirm';
+                      return (
+                        <div key={item.id} className="bg-[#0d1424] border border-[#1e2d45] rounded-lg p-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <span className="text-white font-semibold text-sm">{item.drug_name} {item.strength}</span>
+                              <div className="text-[#64748b] text-xs mt-0.5">{item.clinic_name} · {item.city}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-[#f59e0b] font-mono text-sm font-bold">{item.distance_miles} mi</div>
+                              <div className="text-[#64748b] text-xs">{item.quantity} units</div>
+                            </div>
+                          </div>
+                          <div className="text-[#64748b] text-xs">Today: {todayHours}{item.contact_phone ? ` · ${item.contact_phone}` : ''}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="text-[#475569] text-xs mt-3">These are suggestions only. Always consult your prescriber before switching medications.</p>
+                </div>
+              )}
 
               {waitlistState === 'done' ? (
                 <div className="bg-[#10b981]/10 border border-[#10b981]/30 rounded-xl p-6 text-center">

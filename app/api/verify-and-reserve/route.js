@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { dbGet, dbUpdate, dbInsert } from '../../../lib/db.js';
+import { sendReservationConfirmationEmail } from '../../../lib/email.js';
 
 function getApiKey() {
   const key = process.env.GROQ_API_KEY;
@@ -198,9 +199,21 @@ function reserveAndRespond({ item, email, quantity_requested, stub }) {
   const today = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date().getDay()];
   const todayHours = clinic?.hours?.[today] || 'Call to confirm hours';
 
+  // Fire confirmation email — don't await so it doesn't block the response
+  sendReservationConfirmationEmail(email.trim().toLowerCase(), {
+    drugName: item.drug_name,
+    strength: item.strength,
+    clinicName: clinic?.name || 'Your clinic',
+    clinicAddress: clinic ? `${clinic.address}, ${clinic.city}` : '',
+    todayHours,
+    qty,
+    reservationId: waitlistEntry.id,
+  }).catch(err => console.error('📋 [RESERVATION EMAIL FAILED]', err.message));
+
   return NextResponse.json({
     verified: true,
     reservation_id: waitlistEntry.id,
+    inventory_id: item.id,
     clinic_name: clinic?.name,
     clinic_address: clinic ? `${clinic.address}, ${clinic.city}` : '',
     today_hours: todayHours,

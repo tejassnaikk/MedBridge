@@ -24,7 +24,7 @@ function isExpiringSoon(date) {
 
 export async function POST(request) {
   try {
-    const { drug_name, strength, form, quantity, expiry_date, clinic_id } = await request.json();
+    const { drug_name, strength, form, quantity, expiry_date, clinic_id, donor_email } = await request.json();
 
     if (!drug_name || !strength || !quantity || !expiry_date || !clinic_id) {
       return NextResponse.json({ error: 'All fields required' }, { status: 400 });
@@ -63,6 +63,7 @@ export async function POST(request) {
       status: 'pending',
       date_received: new Date().toISOString(),
       donated_via: 'donor_form',
+      donor_email: donor_email || null,
     });
 
     return NextResponse.json({ success: true, inventory_id: item.id });

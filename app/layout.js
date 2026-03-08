@@ -1,4 +1,5 @@
 import './globals.css';
+import ChatWidget from './components/ChatWidget';
 
 export const metadata = {
   title: 'MedBridge — Free Medication for Those Who Need It',
@@ -33,6 +34,9 @@ export default function RootLayout({ children }) {
 
           {/* Page content */}
           {children}
+
+          {/* Global chat widget */}
+          <ChatWidget />
 
           {/* Footer */}
           <footer className="border-t border-[#1e2d45] mt-20 py-8 px-4">

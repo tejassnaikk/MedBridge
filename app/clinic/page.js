@@ -200,7 +200,7 @@ export default function ClinicPortal() {
   const stats = {
     available: inventory.filter(i => i.status === 'available').length,
     reserved:  inventory.filter(i => i.status === 'reserved').length,
-    dispensed: inventory.filter(i => i.status === 'dispensed').length,
+    dispensed: inventory.filter(i => i.dispensed_quantity > 0).length,
     unitsDispensed: inventory.reduce((sum, i) => sum + (i.dispensed_quantity || 0), 0),
     pending: pendingDonations.length,
   };

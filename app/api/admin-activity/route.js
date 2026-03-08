@@ -56,18 +56,29 @@ export async function GET(request) {
     });
   });
 
-  // Matches / pickups (notified or fulfilled waitlist entries)
-  waitlist.filter(w => w.status === 'notified' || w.status === 'fulfilled').forEach(w => {
+  // Matches (notified — reservation made, awaiting pickup)
+  waitlist.filter(w => w.status === 'notified').forEach(w => {
     const item = w.reserved_inventory_id ? inventory.find(i => i.id === w.reserved_inventory_id) : null;
     const clinic = item ? clinicMap[item.clinic_id] : null;
     events.push({
       time: w.notified_at,
-      type: w.status === 'fulfilled' ? 'pickup' : 'match',
-      label: w.status === 'fulfilled'
-        ? `Pickup confirmed: ${w.drug_name} ${w.strength}`
-        : `Match made: ${w.drug_name} ${w.strength}`,
+      type: 'match',
+      label: `Reserved: ${w.drug_name} ${w.strength} × ${w.quantity_requested || '?'}`,
       sub: clinic || 'Unknown clinic',
       status: w.status,
+    });
+  });
+
+  // Pickups — fulfilled waitlist entries, use dispensed_at from inventory for accurate timestamp
+  waitlist.filter(w => w.status === 'fulfilled').forEach(w => {
+    const item = w.reserved_inventory_id ? inventory.find(i => i.id === w.reserved_inventory_id) : null;
+    const clinic = item ? clinicMap[item.clinic_id] : null;
+    events.push({
+      time: item?.dispensed_at || w.notified_at,
+      type: 'pickup',
+      label: `Dispensed: ${w.drug_name} ${w.strength} × ${item?.dispensed_quantity ?? w.quantity_requested ?? '?'}`,
+      sub: clinic || 'Unknown clinic',
+      status: 'fulfilled',
     });
   });
 
