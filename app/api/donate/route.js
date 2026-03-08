@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { dbInsert, dbAll } from '../../../lib/db.js';
-import { runMatchEngine } from '../../../lib/match.js';
+import { dbInsert } from '../../../lib/db.js';
+
 
 const REMS_DRUGS = [
   'clozapine', 'clozaril', 'isotretinoin', 'accutane', 'thalidomide', 'thalomid',
@@ -30,6 +30,14 @@ export async function POST(request) {
       return NextResponse.json({ error: 'All fields required' }, { status: 400 });
     }
 
+    const qty = parseInt(quantity);
+    if (qty < 20) {
+      return NextResponse.json({ error: 'Minimum donation quantity is 20 units.' }, { status: 422 });
+    }
+    if (qty > 500) {
+      return NextResponse.json({ error: 'Maximum donation quantity is 500 units per submission.' }, { status: 422 });
+    }
+
     if (isREMS(drug_name)) {
       return NextResponse.json({
         error: `${drug_name} is on the FDA REMS restricted list and cannot be donated.`,
@@ -52,12 +60,10 @@ export async function POST(request) {
       quantity: parseInt(quantity),
       expiry_date,
       clinic_id: parseInt(clinic_id),
-      status: 'available',
+      status: 'pending',
       date_received: new Date().toISOString(),
       donated_via: 'donor_form',
     });
-
-    runMatchEngine(item.id).catch(console.error);
 
     return NextResponse.json({ success: true, inventory_id: item.id });
   } catch (err) {

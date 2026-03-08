@@ -19,9 +19,15 @@ export async function POST(request) {
     // Mark waitlist entry fulfilled
     dbUpdate('waitlist', entry.id, { status: 'fulfilled' });
 
-    // Mark inventory dispensed
+    // Mark inventory dispensed with full dispense metadata
     if (entry.reserved_inventory_id) {
-      dbUpdate('inventory', entry.reserved_inventory_id, { status: 'dispensed' });
+      const invItem = dbGet('inventory', entry.reserved_inventory_id);
+      dbUpdate('inventory', entry.reserved_inventory_id, {
+        status: 'dispensed',
+        dispensed_quantity: entry.quantity_requested || invItem?.quantity || null,
+        dispensed_at: new Date().toISOString(),
+        patient_email: entry.email || null,
+      });
     }
 
     const item = entry.reserved_inventory_id

@@ -276,7 +276,8 @@ export default function DonorPage() {
               <label className="block text-xs text-[#64748b] mb-1.5 font-mono">Quantity (units) *</label>
               <input type="number" value={drugForm.quantity}
                 onChange={e => setDrugForm(f => ({ ...f, quantity: e.target.value }))}
-                placeholder="e.g. 30" min={1} className="w-full px-3 py-2.5 rounded-lg text-sm" />
+                placeholder="e.g. 30" min={20} max={500} className="w-full px-3 py-2.5 rounded-lg text-sm" />
+              <p className="text-[#64748b] text-xs mt-1">Min 20 · Max 500 units per donation</p>
             </div>
             <div className="sm:col-span-2">
               <label className="block text-xs text-[#64748b] mb-1.5 font-mono">Expiry Date *</label>
@@ -291,6 +292,9 @@ export default function DonorPage() {
                 alert('Please fill in all required fields');
                 return;
               }
+              const qty = parseInt(drugForm.quantity);
+              if (qty < 20) { alert('Minimum donation quantity is 20 units.'); return; }
+              if (qty > 500) { alert('Maximum donation quantity is 500 units per submission.'); return; }
               setStep('zip');
             }}
             className="mt-5 w-full bg-[#10b981] text-[#0a0e1a] font-bold py-3 rounded-lg text-sm hover:bg-[#059669] transition-all"
@@ -314,9 +318,9 @@ export default function DonorPage() {
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-2">Find Your Drop-Off Clinic</h2>
           <p className="text-[#64748b] text-sm">
-            Enter your zip. We'll show the nearest clinic and add{' '}
-            <strong className="text-white">{drugForm.drug_name} {drugForm.strength}</strong>{' '}
-            to their inventory the moment you confirm drop-off.
+            Enter your zip to find the nearest drop-off clinic for{' '}
+            <strong className="text-white">{drugForm.drug_name} {drugForm.strength}</strong>.
+            After you drop off, clinic staff will inspect and approve the donation before it enters inventory.
           </p>
         </div>
 
@@ -357,8 +361,8 @@ export default function DonorPage() {
 
                   {i === 0 && (
                     donated ? (
-                      <div className="bg-[#10b981]/10 border border-[#10b981]/20 rounded-lg px-4 py-3 text-sm text-[#10b981] text-center font-semibold">
-                        ✓ Added to inventory — match engine is running
+                      <div className="bg-[#f59e0b]/10 border border-[#f59e0b]/20 rounded-lg px-4 py-3 text-sm text-[#f59e0b] text-center font-semibold">
+                        ✓ Drop-off logged — clinic staff will inspect &amp; approve shortly
                       </div>
                     ) : (
                       <>
