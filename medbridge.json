@@ -1,0 +1,208 @@
+{
+  "_seq": {
+    "clinics": 4,
+    "inventory": 9,
+    "waitlist": 0
+  },
+  "clinics": [
+    {
+      "id": 1,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "name": "Open Bible Clinic",
+      "address": "2300 W Colfax Ave",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80204",
+      "lat": 39.7391,
+      "lng": -104.9953,
+      "hours": {
+        "Mon": "8am–5pm",
+        "Tue": "8am–5pm",
+        "Wed": "8am–5pm",
+        "Thu": "8am–5pm",
+        "Fri": "8am–5pm",
+        "Sat": "Closed",
+        "Sun": "Closed"
+      },
+      "contact_phone": "303-555-0101",
+      "is_verified": true
+    },
+    {
+      "id": 2,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "name": "Denver Health Community Pharmacy",
+      "address": "777 Bannock St",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80204",
+      "lat": 39.728,
+      "lng": -104.9876,
+      "hours": {
+        "Mon": "7am–6pm",
+        "Tue": "7am–6pm",
+        "Wed": "7am–6pm",
+        "Thu": "7am–6pm",
+        "Fri": "7am–6pm",
+        "Sat": "9am–2pm",
+        "Sun": "Closed"
+      },
+      "contact_phone": "303-555-0102",
+      "is_verified": true
+    },
+    {
+      "id": 3,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "name": "Salud Family Health Center",
+      "address": "9550 Grant St",
+      "city": "Thornton",
+      "state": "CO",
+      "zip": "80229",
+      "lat": 39.8986,
+      "lng": -104.9719,
+      "hours": {
+        "Mon": "8am–5pm",
+        "Tue": "8am–5pm",
+        "Wed": "8am–5pm",
+        "Thu": "8am–5pm",
+        "Fri": "8am–5pm",
+        "Sat": "9am–1pm",
+        "Sun": "Closed"
+      },
+      "contact_phone": "720-555-0103",
+      "is_verified": true
+    },
+    {
+      "id": 4,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "name": "Colorado Coalition Free Clinic",
+      "address": "2130 Stout St",
+      "city": "Denver",
+      "state": "CO",
+      "zip": "80205",
+      "lat": 39.7476,
+      "lng": -104.9871,
+      "hours": {
+        "Mon": "9am–4pm",
+        "Tue": "9am–4pm",
+        "Wed": "9am–4pm",
+        "Thu": "9am–4pm",
+        "Fri": "9am–3pm",
+        "Sat": "Closed",
+        "Sun": "Closed"
+      },
+      "contact_phone": "303-555-0104",
+      "is_verified": true
+    }
+  ],
+  "inventory": [
+    {
+      "id": 1,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Lisinopril",
+      "strength": "10mg",
+      "form": "tablet",
+      "quantity": 30,
+      "expiry_date": "2026-12-01",
+      "clinic_id": 1,
+      "status": "available"
+    },
+    {
+      "id": 2,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Atorvastatin",
+      "strength": "20mg",
+      "form": "tablet",
+      "quantity": 60,
+      "expiry_date": "2026-08-15",
+      "clinic_id": 1,
+      "status": "available"
+    },
+    {
+      "id": 3,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Metformin",
+      "strength": "500mg",
+      "form": "tablet",
+      "quantity": 90,
+      "expiry_date": "2026-11-01",
+      "clinic_id": 2,
+      "status": "available"
+    },
+    {
+      "id": 4,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Amlodipine",
+      "strength": "5mg",
+      "form": "tablet",
+      "quantity": 45,
+      "expiry_date": "2026-10-30",
+      "clinic_id": 2,
+      "status": "available"
+    },
+    {
+      "id": 5,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Levothyroxine",
+      "strength": "50mcg",
+      "form": "tablet",
+      "quantity": 30,
+      "expiry_date": "2026-09-01",
+      "clinic_id": 3,
+      "status": "available"
+    },
+    {
+      "id": 6,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Omeprazole",
+      "strength": "20mg",
+      "form": "capsule",
+      "quantity": 60,
+      "expiry_date": "2026-07-15",
+      "clinic_id": 3,
+      "status": "available"
+    },
+    {
+      "id": 7,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Metformin",
+      "strength": "1000mg",
+      "form": "tablet",
+      "quantity": 45,
+      "expiry_date": "2026-10-01",
+      "clinic_id": 4,
+      "status": "available"
+    },
+    {
+      "id": 8,
+      "created_at": "2026-03-07T22:52:40.141Z",
+      "date_received": "2026-03-07T22:52:40.141Z",
+      "drug_name": "Sertraline",
+      "strength": "50mg",
+      "form": "tablet",
+      "quantity": 30,
+      "expiry_date": "2026-11-30",
+      "clinic_id": 4,
+      "status": "available"
+    },
+    {
+      "id": 9,
+      "created_at": "2026-03-07T22:56:01.173Z",
+      "drug_name": "Metformin",
+      "strength": "500mg",
+      "form": "tablet",
+      "quantity": 9,
+      "expiry_date": "2026-12-23",
+      "clinic_id": 2,
+      "status": "available",
+      "date_received": "2026-03-07T22:56:01.173Z"
+    }
+  ],
+  "waitlist": []
+}
