@@ -1,0 +1,26 @@
+# MedBridge — Node.js Project Dependencies
+# Install all dependencies with: npm install
+
+# ── Runtime Dependencies ──────────────────────────────────────────
+next==16.1.6
+react==19.0.0
+react-dom==19.0.0
+resend==6.9.3
+twilio==5.3.3
+
+# ── Dev Dependencies ─────────────────────────────────────────────
+tailwindcss==3.4.0
+postcss==8.4.0
+autoprefixer==10.4.0
+
+# ── External APIs (require keys in .env.local) ───────────────────
+# GROQ_API_KEY        — https://console.groq.com  (Llama 4 Scout vision model)
+# RESEND_API_KEY      — https://resend.com        (transactional email)
+# TWILIO_ACCOUNT_SID  — https://twilio.com        (SMS notifications)
+# TWILIO_AUTH_TOKEN   — https://twilio.com
+# TWILIO_PHONE_NUMBER — https://twilio.com
+# ADMIN_PASSWORD      — set to your admin portal password
+# NEXT_PUBLIC_BASE_URL — your deployment URL (e.g. https://medbridge.vercel.app)
+
+# ── Node.js version ──────────────────────────────────────────────
+# Requires Node.js >= 18.0.0
